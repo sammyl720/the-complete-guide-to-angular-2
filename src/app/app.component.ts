@@ -6,4 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  activeRoute: string = "recipes"
+  handleRouteChange(event){
+    this.activeRoute = event.route
+  }
 }
