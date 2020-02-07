@@ -1,9 +1,29 @@
-<app-header (activeRouteChange)="handleRouteChange($event)"></app-header>
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
-            <app-recipes *ngIf="activeRoute === 'recipes'"></app-recipes>
-            <app-shopping-list *ngIf="activeRoute === 'shopping'"></app-shopping-list>
+        <div class="col-xs-12">
+            <button (click)="onlyOdd = !onlyOdd" class="btn btn-primary">
+                Only show odd number
+            </button>
+            <br>
+            <ul class="list-group">
+                <div *ngIf="onlyOdd">
+                    <li 
+                        class="list-group-item"
+                        [ngClass]="{odd: odd % 2 !== 0 }"
+                        [ngStyle]="{ backgroundColor: odd % 2 !== 0 ? 'yellow' : 'transparent'}"
+                        *ngFor="let odd of oddNumbers">
+                        {{ odd }}
+                    </li>
+                </div>
+                <div *ngIf="!onlyOdd">
+                    <li 
+                        class="list-group-item"
+                        *ngFor="let even of evenNumbers"
+                        [ngStyle]="{ backgroundColor: even % 2 !==0 ? 'yellow' : 'transparent'}"  [ngClass]="{odd: even % 2 !== 0}">
+                        {{ even }}
+                    </li>
+                </div>
+            </ul>
         </div>
     </div>
 </div>
