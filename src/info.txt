@@ -1,0 +1,11 @@
+What is an Observable?
+
+Observable
+Various Data Source
+(User input) Events, Http Requests, Triggered in Code...
+
+Observer
+You write the code which gets executed
+1. Hanndle Data
+2. Handle Error
+3. Handle Completion
