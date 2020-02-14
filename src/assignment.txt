@@ -1,0 +1,11 @@
+Create a form with following controls and validators
+
+1) Project Name ('should not be empty)
+2) Mail (should not be empty and valid email)
+3) project status dropdown with 3 potential values: 'stable', 'criticial', 'Finished'
+4) submit button
+
+Add your own validator that does not allow 'test' as a project Name
+also implement that validator as an async Validator (replace the other one)
+
+Upon submitting the form simply print the values to console
