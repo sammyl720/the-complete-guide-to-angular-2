@@ -1,0 +1,4 @@
+1) built a reverse pipe
+reverses a string
+
+2) sort the array of servers by the name of the server
