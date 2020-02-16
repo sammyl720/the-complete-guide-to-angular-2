@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpEventType } from '@angular/common/http';
 import { Post } from './post.model';
-import { map, catchError } from 'rxjs/operators'
+import { map, catchError, tap } from 'rxjs/operators'
 import { Subject, throwError } from 'rxjs';
 
 @Injectable({
@@ -16,7 +16,9 @@ export class PostService{
       title,
       content
     }
-    this.http.post<{ name: string }>('https://ng-complete-guide-29ff7.firebaseio.com/posts.json', postData).subscribe(responseData => {
+    this.http.post<{ name: string }>('https://ng-complete-guide-29ff7.firebaseio.com/posts.json', postData, {
+      observe: 'response'
+    }).subscribe(responseData => {
       console.log(responseData)
     },
     error => {
@@ -26,10 +28,30 @@ export class PostService{
   }
 
   deletePosts() {
-    return this.http.delete('https://ng-complete-guide-29ff7.firebaseio.com/posts.json')
+    return this.http.delete('https://ng-complete-guide-29ff7.firebaseio.com/posts.json', {
+      observe: 'events',
+      responseType: 'text'
+    }).pipe(tap(event => {
+      console.log(event)
+      if(event.type === HttpEventType.Sent){
+        // ...
+      }
+      if(event.type == HttpEventType.Response){
+        console.log(event.body)
+      }
+    }))
   }
   fetchPosts() {
-    return this.http.get<{[key: string]: Post }>('https://ng-complete-guide-29ff7.firebaseio.com/posts.json')
+    let searchParams = new HttpParams()
+    searchParams = searchParams.append('print', 'pretty')
+    searchParams = searchParams.append('custom', 'key')
+    return this.http.get<{[key: string]: Post }>('https://ng-complete-guide-29ff7.firebaseio.com/posts.json', {
+      headers: new HttpHeaders({
+        'Custom-header': 'Hello'
+      }),
+      params: searchParams,
+      responseType: 'json'
+    })
     .pipe(map((responseData) => {
       const postArray:Post[] = []
       for(const key in responseData){
